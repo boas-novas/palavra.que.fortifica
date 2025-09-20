@@ -92,7 +92,10 @@
     <!-- Seção de Versículos (Ocupa 65-70% da altura da tela e é centralizada) -->
     <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
         <div class="message-app-container animated-bg shadow-lg rounded-3xl p-6 text-center flex flex-col items-center justify-center w-full max-w-2xl transform transition-transform duration-300 hover:scale-[1.01] backdrop-blur-md" style="min-height: 65vh;">
-            <p id="lucky-message-text" class="verse-text text-4xl md:text-5xl lg:text-6xl text-gray-700 font-semibold min-h-[50px] flex items-center justify-center">Clique para receber seu versículo de hoje...</p>
+            <div id="verse-container" class="flex flex-col items-center justify-center min-h-[50px]">
+                <p id="lucky-message-text" class="verse-text text-2xl md:text-3xl lg:text-4xl text-gray-700 font-semibold mb-4">Clique para receber seu versículo de hoje...</p>
+                <p id="verse-reference" class="text-xl md:text-2xl text-gray-700 font-bold hidden"></p>
+            </div>
             
             <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
                 <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
@@ -154,6 +157,7 @@
         // --- Lógica de Versículos Bíblicos ---
         const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec";
         const luckyMessageText = document.getElementById('lucky-message-text');
+        const verseReference = document.getElementById('verse-reference');
         const getMessageButton = document.getElementById('get-message-button');
         const shareButton = document.getElementById('share-button');
         const copyButton = document.getElementById('copy-button');
@@ -166,6 +170,7 @@
             shareButton.classList.add('hidden');
             copyButton.classList.add('hidden');
             luckyMessageText.textContent = "Buscando o versículo...";
+            verseReference.classList.add('hidden');
             luckyMessageText.classList.add('animate-pulse');
             
             try {
@@ -175,9 +180,29 @@
                 }
                 const data = await response.json();
                 if (data && data.message) {
-                    luckyMessageText.textContent = data.message;
-                    updateMetaTags(data.message);
-                    // Verifica se a API de compartilhamento é suportada e mostra o botão correto
+                    let message = data.message;
+                    let verse = "Versículo inválido.";
+                    let reference = "";
+
+                    // Lógica para formatar o versículo no padrão desejado
+                    const firstQuoteIndex = message.indexOf('"');
+                    if (firstQuoteIndex !== -1) {
+                        reference = message.substring(0, firstQuoteIndex).trim();
+                        if (reference.endsWith(':')) {
+                            reference = reference.slice(0, -1);
+                        }
+                        
+                        verse = message.substring(firstQuoteIndex + 1, message.length - 1);
+                    } else {
+                        verse = message;
+                    }
+
+                    luckyMessageText.textContent = `"${verse}"`;
+                    verseReference.textContent = reference;
+                    verseReference.classList.remove('hidden');
+
+                    updateMetaTags(message);
+                    
                     if (navigator.share) {
                         shareButton.classList.remove('hidden');
                     } else {
@@ -185,10 +210,12 @@
                     }
                 } else {
                     luckyMessageText.textContent = "Não foi possível carregar o versículo. Tente novamente mais tarde.";
+                    verseReference.classList.add('hidden');
                 }
             } catch (error) {
                 console.error(`Falha ao buscar versículo:`, error);
                 luckyMessageText.textContent = "Erro de rede. Verifique a sua conexão ou a URL da planilha.";
+                verseReference.classList.add('hidden');
             } finally {
                 getMessageButton.disabled = false;
                 luckyMessageText.classList.remove('animate-pulse');
@@ -201,8 +228,8 @@
 
         // Função para compartilhar o versículo usando a API nativa
         function shareMessage() {
-            const messageToShare = luckyMessageText.textContent;
-            const fullMessage = `O seu versículo de hoje:\n\n"${messageToShare}"`;
+            const messageToShare = `${luckyMessageText.textContent} ${verseReference.textContent}`;
+            const fullMessage = `O seu versículo de hoje:\n\n${messageToShare}`;
 
             if (navigator.share) {
                 navigator.share({
@@ -222,8 +249,8 @@
 
         // Função para copiar o versículo para a área de transferência
         function copyMessage() {
-            const messageToCopy = luckyMessageText.textContent;
-            const fullMessage = `O seu versículo de hoje:\n\n"${messageToCopy}"`;
+            const messageToCopy = `${luckyMessageText.textContent} ${verseReference.textContent}`;
+            const fullMessage = `O seu versículo de hoje:\n\n${messageToCopy}`;
 
             // Cria um elemento de texto temporário para a cópia
             const tempTextarea = document.createElement('textarea');
