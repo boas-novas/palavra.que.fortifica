@@ -69,18 +69,16 @@
         /* Novos estilos para a área do versículo, baseados na sua referência */
         .verse-card {
             background-image: url('https://raw.githubusercontent.com/boas-novas/palavra.que.fortifica/refs/heads/main/fundo-pqf.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-size: 100% auto; /* Ajustado para preencher a largura e manter a proporção */
+            background-position: center top;
+            background-repeat: repeat-y; /* Permite que o fundo se repita verticalmente */
             position: relative;
-            /* Usando um aspect ratio para manter a proporção do design original */
-            aspect-ratio: 1080 / 1350;
-            max-height: 80vh; /* Limita a altura em telas grandes */
+            /* Removido o aspect-ratio fixo para permitir que o card se adapte ao conteúdo */
+            min-height: 50vh; /* Define uma altura mínima para manter a estética para versículos curtos */
         }
         
         .verse-content {
             z-index: 2;
-            /* Alterado para padding responsivo do Tailwind */
             padding: 2.5rem 2rem; 
             text-align: left;
             box-sizing: border-box;
