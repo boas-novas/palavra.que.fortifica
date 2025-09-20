@@ -280,16 +280,16 @@
 
         // Função para compartilhar o versículo usando a API nativa
         function shareMessage() {
-            const messageToShare = `${luckyMessageText.textContent} ${verseReference.textContent}`;
-            const fullMessage = `O seu versículo de hoje:\n\n${messageToShare}`;
+            // Nova mensagem de incentivo para compartilhar o link
+            const encouragementMessage = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
 
             if (navigator.share) {
                 navigator.share({
                     title: 'Versículo Bíblico Diário',
-                    text: fullMessage,
+                    text: encouragementMessage, // Usando a nova mensagem de incentivo
                     url: window.location.href // Deixa o WhatsApp adicionar a URL
                 }).then(() => {
-                    console.log('Versículo compartilhado com sucesso!');
+                    console.log('Mensagem compartilhada com sucesso!');
                 }).catch((error) => {
                     console.error('Erro ao compartilhar:', error);
                 });
@@ -301,12 +301,12 @@
 
         // Função para copiar o versículo para a área de transferência
         function copyMessage() {
-            const messageToCopy = `${luckyMessageText.textContent} ${verseReference.textContent}`;
-            const fullMessage = `O seu versículo de hoje:\n\n${messageToCopy}`;
+            // A mensagem copiada agora é a mesma mensagem de incentivo
+            const encouragementMessage = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
 
             // Cria um elemento de texto temporário para a cópia
             const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = fullMessage;
+            tempTextarea.value = encouragementMessage;
             document.body.appendChild(tempTextarea);
             tempTextarea.select();
 
