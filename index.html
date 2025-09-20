@@ -73,20 +73,20 @@
             background-position: center top;
             background-repeat: repeat-y; /* Permite que o fundo se repita verticalmente */
             position: relative;
-            /* Removido o aspect-ratio fixo para permitir que o card se adapte ao conteúdo */
+            /* Removido a altura fixa para permitir que o card se adapte ao conteúdo */
             min-height: 50vh; /* Define uma altura mínima para manter a estética para versículos curtos */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem 2rem;
         }
         
         .verse-content {
+            /* Removido position: absolute e height: 100% para que o contêiner se expanda com o texto */
             z-index: 2;
-            padding: 2.5rem 2rem; 
             text-align: left;
             box-sizing: border-box;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -119,40 +119,41 @@
 <body class="bg-gray-100 text-gray-800 flex flex-col items-center">
 
     <!-- Seção de Versículos (Ocupa a maior parte da tela e é centralizada) -->
-    <main class="flex flex-col items-center justify-center w-full min-h-screen flex-grow p-4 md:p-8">
+    <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
+        <!-- O contêiner de cartão foi ajustado para permitir a expansão do texto -->
         <div class="verse-card shadow-lg rounded-3xl w-full max-w-xl transform transition-transform duration-300 hover:scale-[1.01]">
             <div class="verse-content">
                 <p id="lucky-message-text" class="verse-text-style">Clique para receber seu versículo de hoje...</p>
                 <p id="verse-reference" class="verse-reference-style hidden"></p>
             </div>
-        </div>
-        
-        <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
-            <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
-                    <path d="M12 7v8"></path>
-                </svg>
-                Novo versículo
-            </button>
-            <!-- Botões de compartilhamento/cópia. Um deles será exibido após o carregamento da mensagem. -->
-            <button id="share-button" class="px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="18" cy="5" r="3" />
-                    <circle cx="6" cy="12" r="3" />
-                    <circle cx="18" cy="19" r="3" />
-                    <path d="M8.59 13.51l6.83 4.98" />
-                    <path d="M15.41 5.49l-6.83 4.98" />
-                </svg>
-                Compartilhar
-            </button>
-            <button id="copy-button" class="px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-                Copiar
-            </button>
+            <!-- Os botões foram movidos para dentro do card para evitar sobreposição de texto -->
+            <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
+                <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
+                        <path d="M12 7v8"></path>
+                    </svg>
+                    Novo versículo
+                </button>
+                <!-- Botões de compartilhamento/cópia. Um deles será exibido após o carregamento da mensagem. -->
+                <button id="share-button" class="px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3" />
+                        <circle cx="6" cy="12" r="3" />
+                        <circle cx="18" cy="19" r="3" />
+                        <path d="M8.59 13.51l6.83 4.98" />
+                        <path d="M15.41 5.49l-6.83 4.98" />
+                    </svg>
+                    Compartilhar
+                </button>
+                <button id="copy-button" class="px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    Copiar
+                </button>
+            </div>
         </div>
         
         <div id="copy-confirmation" class="copy-confirmation mt-2 text-sm text-green-600 font-semibold">
