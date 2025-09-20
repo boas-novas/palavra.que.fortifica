@@ -3,111 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App de Mensagens e Ofertas</title>
+    <title>Versículo Bíblico Diário</title>
+    <!-- Open Graph Protocol para compartilhamento rico -->
+    <meta property="og:title" content="Versículo Bíblico Diário">
+    <meta property="og:description" id="og-description" content="Um versículo bíblico para sua dose diária de inspiração.">
+    <meta property="og:image" content="https://mosaico-top.github.io/mensagem-do-dia/logo.png">
+    <meta property="og:url" content="https://mosaico-top.github.io/mensagem-do-dia/">
+    <meta property="og:type" content="website">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
         }
-        
-        /* Estilo para a transição do carrossel */
-        .content-section {
-            transition: min-height 0.3s ease-in-out;
+
+        /* Estilos do estado recolhido do carrossel */
+        .content-section.collapsed {
+            height: 80px;
         }
-        .content-wrapper {
+        .content-section.collapsed .content-wrapper,
+        .content-section.collapsed .cta-button,
+        .content-section.collapsed .content-image,
+        .content-section.collapsed .offer-description {
+            display: none !important;
+        }
+        .content-section.collapsed .loading-state {
+            display: flex !important;
+        }
+
+        /* Estilo para a mensagem de confirmação */
+        .copy-confirmation {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .copy-confirmation.visible {
+            opacity: 1;
+        }
+
+        /* Estilos para o estado de carregamento do carrossel */
+        .content-section.loading .content-wrapper {
+            opacity: 0;
+            display: none;
+        }
+
+        .content-section .loading-state {
+            display: none;
+            opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
 
-        /* Estilos do estado recolhido do carrossel */
-        .main-container.collapsed .content-section {
-            min-height: 80px !important;
-        }
-        .main-container.collapsed .content-wrapper .cta-button {
-            display: none !important;
-        }
-        .main-container.collapsed .content-wrapper .content-image {
-            display: none !important;
-        }
-        .main-container.collapsed .content-wrapper .text-center {
-            text-align: center !important;
+        .content-section.loading .loading-state {
             display: flex;
-            justify-content: center;
+            opacity: 1;
+        }
+
+        /* Animação de fundo para a seção de versículos */
+        .animated-bg {
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec, #e8f5e9);
+            background-size: 200% 200%;
+            animation: background-move 10s ease infinite;
+        }
+
+        @keyframes background-move {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Fonte elegante para o versículo */
+        .verse-text {
+            font-family: 'Merriweather', serif;
+            font-weight: 400;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 flex flex-col items-center p-4">
+<body class="bg-gray-100 text-gray-800 flex flex-col items-center">
 
-    <!-- Container Principal do App -->
-    <div class="main-container w-full max-w-2xl flex flex-col gap-4">
-
-        <!-- Seção de Mensagens da Sorte (Topo) -->
-        <div class="message-app-container bg-white shadow-md rounded-xl p-6 text-center flex flex-col items-center justify-center min-h-[150px]">
-            <h1 class="text-2xl font-bold text-gray-900 mb-4">Sua Mensagem da Sorte</h1>
-            <p id="lucky-message-text" class="text-xl md:text-2xl text-gray-700 font-semibold italic min-h-[50px] flex items-center justify-center">Carregando...</p>
-            <button id="get-message-button" class="mt-4 px-6 py-2 bg-emerald-500 text-white font-bold rounded-full shadow-lg hover:bg-emerald-600 transition-colors duration-300">
-                Obter nova mensagem
-            </button>
-        </div>
-
-        <!-- Seção do Carrossel de Ofertas (Inferior) -->
-        <div id="content-area" class="content-section bg-white shadow-md rounded-xl p-4 min-h-[120px] flex flex-col justify-center items-center relative mt-4">
-            <button class="absolute top-2 right-2 p-1 bg-gray-300 rounded-full w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-400 transition-transform duration-300" id="collapse-button" title="Recolher Carrossel">
-                <svg id="collapse-icon-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 10l5 5 5-5z"/></svg>
-                <svg id="collapse-icon-down" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 14l5-5 5 5z"/></svg>
-            </button>
-            <div class="content-wrapper w-full flex flex-col md:flex-row items-center justify-center gap-4">
-                <img class="w-32 h-32 md:w-24 md:h-24 object-cover rounded-lg flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/120x120/E0E0E0/808080?text=Sem+Imagem';"/>
-                <div class="flex-grow text-center md:text-left flex flex-col items-center md:items-start">
-                    <h3 class="text-xl font-semibold text-gray-900" id="content-title"></h3>
-                    <a class="mt-2 px-6 py-2 bg-blue-500 text-white font-bold rounded-full shadow-md hover:bg-blue-600 transition-all duration-300 text-sm md:text-base" id="cta-button" href="" target="_blank" rel="noopener noreferrer">Veja Mais...</a>
-                </div>
+    <!-- Seção de Versículos (Ocupa 65-70% da altura da tela e é centralizada) -->
+    <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
+        <div class="message-app-container animated-bg shadow-lg rounded-3xl p-6 text-center flex flex-col items-center justify-center w-full max-w-2xl transform transition-transform duration-300 hover:scale-[1.01] backdrop-blur-md" style="min-height: 65vh;">
+            <p id="lucky-message-text" class="verse-text text-4xl md:text-5xl lg:text-6xl text-gray-700 font-semibold min-h-[50px] flex items-center justify-center">Clique para receber seu versículo de hoje...</p>
+            
+            <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
+                <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
+                        <path d="M12 7v8"></path>
+                    </svg>
+                    Receber o versículo
+                </button>
+                <!-- Botões de compartilhamento/cópia. Um deles será exibido após o carregamento da mensagem. -->
+                <button id="share-button" class="px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3" />
+                        <circle cx="6" cy="12" r="3" />
+                        <circle cx="18" cy="19" r="3" />
+                        <path d="M8.59 13.51l6.83 4.98" />
+                        <path d="M15.41 5.49l-6.83 4.98" />
+                    </svg>
+                    Compartilhar
+                </button>
+                <button id="copy-button" class="px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    Copiar
+                </button>
+            </div>
+            
+            <div id="copy-confirmation" class="copy-confirmation mt-2 text-sm text-green-600 font-semibold">
+                Versículo copiado!
             </div>
         </div>
+    </main>
+
+    <!-- Seção do Carrossel de Ofertas (Fixo na parte inferior) -->
+    <div id="content-area" class="content-section w-full max-w-2xl bg-slate-100 shadow-lg rounded-t-2xl p-3 flex flex-col justify-center items-center relative fixed bottom-0 left-0 right-0 mx-auto z-50">
+        <button class="absolute top-2 right-2 p-1 bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-400 transition-transform duration-300 z-10" id="collapse-button" title="Recolher Carrossel">
+            <svg id="collapse-icon-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 10l5 5 5-5z"/></svg>
+            <svg id="collapse-icon-down" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 14l5-5 5 5z"/></svg>
+        </button>
+        <div class="loading-state flex-grow text-center text-gray-500 font-semibold">
+            Carregando ofertas...
+        </div>
+        <a id="content-link" href="#" target="_blank" rel="noopener noreferrer" class="content-wrapper w-full flex items-center gap-3 pr-8 no-underline text-current block">
+            <img class="content-image w-16 h-16 object-cover rounded-xl flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/64x64/E0E0E0/808080?text=Sem+Imagem';"/>
+            <div class="flex-grow flex flex-col items-start min-w-0">
+                <h3 class="text-sm md:text-md text-gray-900 font-normal" id="content-title"></h3>
+            </div>
+        </a>
+    </div>
+
+    <!-- Mensagem de Rodapé sobre Publicidade -->
+    <div class="w-full max-w-2xl bg-gray-200 text-gray-600 text-center text-sm rounded-lg p-3 mt-4">
+        Este site não coleta suas informações pessoais. Para continuar oferecendo mensagens de forma gratuita e sem coletar seus dados, contamos com a ajuda de publicidade. Você ajuda o site sem pagar nada a mais por isso.
     </div>
     
     <script>
-        // --- Lógica de Mensagens da Sorte ---
-        const MESSAGE_API_URL = "https://script.google.com/macros/s/AKfycbxCvoSUZh1JjsnhBdgtUTi46Q9WPTEMyOhKa9TyM3ziPH29Y6g_5KPkEqOJ0ZO6dJJf/exec";
+        // --- Lógica de Versículos Bíblicos ---
+        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec";
         const luckyMessageText = document.getElementById('lucky-message-text');
         const getMessageButton = document.getElementById('get-message-button');
+        const shareButton = document.getElementById('share-button');
+        const copyButton = document.getElementById('copy-button');
+        const copyConfirmation = document.getElementById('copy-confirmation');
+        const ogDescriptionMeta = document.getElementById('og-description');
         const MAX_RETRIES = 3;
 
         async function fetchLuckyMessage(retries = MAX_RETRIES) {
             getMessageButton.disabled = true;
-            luckyMessageText.textContent = "Carregando...";
+            shareButton.classList.add('hidden');
+            copyButton.classList.add('hidden');
+            luckyMessageText.textContent = "Buscando o versículo...";
+            luckyMessageText.classList.add('animate-pulse');
             
             try {
-                const response = await fetch(MESSAGE_API_URL);
+                const response = await fetch(VERSE_API_URL);
                 if (!response.ok) {
                     throw new Error(`Erro HTTP! Status: ${response.status}`);
                 }
                 const data = await response.json();
                 if (data && data.message) {
                     luckyMessageText.textContent = data.message;
+                    updateMetaTags(data.message);
+                    // Verifica se a API de compartilhamento é suportada e mostra o botão correto
+                    if (navigator.share) {
+                        shareButton.classList.remove('hidden');
+                    } else {
+                        copyButton.classList.remove('hidden');
+                    }
                 } else {
-                    luckyMessageText.textContent = "Não foi possível carregar as mensagens. A planilha pode estar vazia ou mal configurada.";
+                    luckyMessageText.textContent = "Não foi possível carregar o versículo. Tente novamente mais tarde.";
                 }
             } catch (error) {
-                console.error(`Falha ao buscar mensagens:`, error);
+                console.error(`Falha ao buscar versículo:`, error);
                 luckyMessageText.textContent = "Erro de rede. Verifique a sua conexão ou a URL da planilha.";
             } finally {
                 getMessageButton.disabled = false;
+                luckyMessageText.classList.remove('animate-pulse');
             }
         }
         
+        function updateMetaTags(message) {
+            ogDescriptionMeta.setAttribute('content', message);
+        }
+
+        // Função para compartilhar o versículo usando a API nativa
+        function shareMessage() {
+            const messageToShare = luckyMessageText.textContent;
+            const fullMessage = `O seu versículo de hoje:\n\n"${messageToShare}"`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Versículo Bíblico Diário',
+                    text: fullMessage,
+                    url: window.location.href // Deixa o WhatsApp adicionar a URL
+                }).then(() => {
+                    console.log('Versículo compartilhado com sucesso!');
+                }).catch((error) => {
+                    console.error('Erro ao compartilhar:', error);
+                });
+            } else {
+                // Fallback para o botão de cópia, caso a API não seja suportada
+                copyMessage();
+            }
+        }
+
+        // Função para copiar o versículo para a área de transferência
+        function copyMessage() {
+            const messageToCopy = luckyMessageText.textContent;
+            const fullMessage = `O seu versículo de hoje:\n\n"${messageToCopy}"`;
+
+            // Cria um elemento de texto temporário para a cópia
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = fullMessage;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+
+            try {
+                document.execCommand('copy');
+                copyConfirmation.classList.add('visible');
+                setTimeout(() => {
+                    copyConfirmation.classList.remove('visible');
+                }, 2000);
+            } catch (err) {
+                console.error('Falha ao copiar o texto:', err);
+            } finally {
+                document.body.removeChild(tempTextarea);
+            }
+        }
+
         getMessageButton.addEventListener('click', fetchLuckyMessage);
+        shareButton.addEventListener('click', shareMessage);
+        copyButton.addEventListener('click', copyMessage); // Mantém o listener para o fallback
 
         // --- Lógica do Carrossel de Ofertas ---
         // URL da planilha do Google Sheets para as ofertas
         const OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/1S_BVbwRlP4Vpin5clCRC_2ILZTBzuhvqLQrSgUcfPxM/export?format=csv&gid=1150732258";
+        const OFFERS_CACHE_KEY = 'mosaico_offers_data';
+        const OFFERS_CACHE_EXPIRY = 3600000; // 1 hora em milissegundos
 
-        const mainContainer = document.querySelector('.main-container');
         const contentSection = document.getElementById('content-area');
-        const contentWrapper = contentSection.querySelector('.content-wrapper');
+        const contentLink = document.getElementById('content-link');
         const contentTitleElement = document.getElementById('content-title');
-        const ctaButton = document.getElementById('cta-button');
         const contentImage = document.getElementById('content-image');
         const collapseButton = document.getElementById('collapse-button');
         const collapseIconUp = document.getElementById('collapse-icon-up');
@@ -116,6 +265,37 @@
         let offersData = [];
         let offerIntervalId = null;
         let isCollapsed = false;
+
+        function startLoadingState() {
+            contentSection.classList.add('loading');
+        }
+
+        function stopLoadingState() {
+            contentSection.classList.remove('loading');
+        }
+
+        function parseCsvLine(line) {
+            const result = [];
+            let inQuote = false;
+            let currentField = '';
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuote = !inQuote;
+                    if (!inQuote && line[i + 1] === '"') {
+                        currentField += '"';
+                        i++;
+                    }
+                } else if (char === ',' && !inQuote) {
+                    result.push(currentField.trim());
+                    currentField = '';
+                } else {
+                    currentField += char;
+                }
+            }
+            result.push(currentField.trim());
+            return result;
+        }
 
         function delay(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -128,23 +308,26 @@
                     throw new Error(`Erro HTTP! Status: ${response.status}`);
                 }
                 let csvText = await response.text();
+
                 if (csvText.charCodeAt(0) === 0xFEFF) {
                     csvText = csvText.substring(1);
                 }
+
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
                 if (lines.length <= 1) {
                     console.warn(`O CSV da URL "${url}" não contém dados válidos.`);
                     return [];
                 }
-                const headers = lines[0].split(',').map(header => header.trim());
+                const headers = parseCsvLine(lines[0]).map(header => header.trim());
                 
                 const data = [];
                 for (const line of lines.slice(1)) {
-                    const values = line.split(',').map(value => value.trim());
+                    const values = parseCsvLine(line);
                     if (values.length >= headers.length) {
                         const row = {};
                         headers.forEach((header, index) => {
-                            row[header] = values[index];
+                            const value = (values[index] || '').replace(/\r$/, '');
+                            row[header] = value;
                         });
                         data.push(row);
                     }
@@ -169,46 +352,59 @@
                 contentSection.classList.remove('hidden');
             }
 
-            contentWrapper.style.opacity = '0';
+            const randomIndex = Math.floor(Math.random() * offersData.length);
+            const randomOffer = offersData[randomIndex];
+            
+            if (randomOffer) {
+                let itemName = randomOffer['Item_Name'] || "Oferta Especial";
+                const offerLink = randomOffer['Offer_Link'];
+                const imgUrl = randomOffer['img'];
 
-            setTimeout(() => {
-                const randomIndex = Math.floor(Math.random() * offersData.length);
-                const randomOffer = offersData[randomIndex];
+                contentTitleElement.textContent = itemName;
+                contentImage.src = imgUrl || "https://placehold.co/64x64/E0E0E0/808080?text=Sem+Imagem";
                 
-                if (randomOffer) {
-                    const itemName = randomOffer['Item_Name'];
-                    const offerLink = randomOffer['Offer_Link'];
-                    const imgUrl = randomOffer['img'];
-
-                    contentTitleElement.textContent = itemName || "Oferta Especial";
-                    contentImage.src = imgUrl || "https://placehold.co/120x120/E0E0E0/808080?text=Sem+Imagem";
-                    ctaButton.href = offerLink || "#";
-                    ctaButton.setAttribute('target', '_blank');
-                    ctaButton.setAttribute('rel', 'noopener noreferrer');
+                if (offerLink) {
+                    contentLink.href = offerLink;
+                } else {
+                    contentLink.href = '#'; // Link vazio se não houver oferta
                 }
-                contentWrapper.style.opacity = '1';
-            }, 500);
+            }
         }
 
         async function fetchOffersAndStartRotation() {
-            try {
-                const rawOffersData = await fetchAndParseCsv(OFFERS_CSV_URL);
-                offersData = rawOffersData.filter(offer => offer.img && offer.img.trim() !== '');
+            startLoadingState();
+            let cachedData = sessionStorage.getItem(OFFERS_CACHE_KEY);
+            let cachedTime = sessionStorage.getItem(`${OFFERS_CACHE_KEY}_time`);
 
-                if (offersData.length > 0) {
-                    updateOffer();
-                    if (offerIntervalId) {
-                        clearInterval(offerIntervalId);
+            if (cachedData && cachedTime && (Date.now() - cachedTime < OFFERS_CACHE_EXPIRY)) {
+                offersData = JSON.parse(cachedData);
+            } else {
+                try {
+                    const rawOffersData = await fetchAndParseCsv(OFFERS_CSV_URL);
+                    offersData = rawOffersData.filter(offer => offer.img && offer.img.trim() !== '');
+
+                    if (offersData.length > 0) {
+                        sessionStorage.setItem(OFFERS_CACHE_KEY, JSON.stringify(offersData));
+                        sessionStorage.setItem(`${OFFERS_CACHE_KEY}_time`, Date.now());
+                    } else {
+                        offersData = [];
                     }
-                    offerIntervalId = setInterval(updateOffer, 10000); // Rota a cada 10 segundos
-                } else {
-                    if (offerIntervalId) {
-                        clearInterval(offerIntervalId);
-                    }
-                    contentSection.classList.add('hidden');
+                } catch (error) {
+                    offersData = [];
                 }
-            } catch (error) {
-                console.error("Erro ao buscar ofertas:", error);
+            }
+
+            if (offersData.length > 0) {
+                updateOffer();
+                stopLoadingState();
+                if (offerIntervalId) {
+                    clearInterval(offerIntervalId);
+                }
+                offerIntervalId = setInterval(updateOffer, 10000); // Rota a cada 10 segundos
+            } else {
+                if (offerIntervalId) {
+                    clearInterval(offerIntervalId);
+                }
                 contentSection.classList.add('hidden');
             }
         }
@@ -216,12 +412,12 @@
         function toggleCollapse() {
             isCollapsed = !isCollapsed;
             if (isCollapsed) {
-                mainContainer.classList.add('collapsed');
+                contentSection.classList.add('collapsed');
                 collapseIconDown.style.display = 'block';
                 collapseIconUp.style.display = 'none';
                 collapseButton.title = "Expandir Carrossel";
             } else {
-                mainContainer.classList.remove('collapsed');
+                contentSection.classList.remove('collapsed');
                 collapseIconDown.style.display = 'none';
                 collapseIconUp.style.display = 'block';
                 collapseButton.title = "Recolher Carrossel";
@@ -230,7 +426,7 @@
 
         // --- Início da Execução ---
         window.onload = function() {
-            fetchLuckyMessage(); // Carrega a primeira mensagem ao iniciar
+            fetchLuckyMessage(); // Carrega o primeiro versículo ao iniciar
             fetchOffersAndStartRotation();
             collapseButton.addEventListener('click', toggleCollapse);
         };
