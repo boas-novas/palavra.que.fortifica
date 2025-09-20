@@ -22,6 +22,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
+            /* Adicionado para evitar rolagem horizontal em mobile */
+            overflow-x: hidden; 
         }
 
         /* Estilos do estado recolhido do carrossel */
@@ -78,7 +80,8 @@
         
         .verse-content {
             z-index: 2;
-            padding: 80px 50px 80px 80px;
+            /* Alterado para padding responsivo do Tailwind */
+            padding: 2.5rem 2rem; 
             text-align: left;
             box-sizing: border-box;
             position: absolute;
@@ -90,6 +93,9 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
+            /* Adicionado para quebrar o texto longo em mobile */
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
         }
         
         .verse-text-style {
@@ -99,6 +105,7 @@
             font-weight: normal;
             color: #374151; /* Cor alterada para um cinza mais escuro */
             text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.1; /* Ajustado para melhorar a legibilidade em versículos longos */
         }
         
         .verse-reference-style {
@@ -114,7 +121,7 @@
 <body class="bg-gray-100 text-gray-800 flex flex-col items-center">
 
     <!-- Seção de Versículos (Ocupa a maior parte da tela e é centralizada) -->
-    <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
+    <main class="flex flex-col items-center justify-center w-full min-h-screen flex-grow p-4 md:p-8">
         <div class="verse-card shadow-lg rounded-3xl w-full max-w-xl transform transition-transform duration-300 hover:scale-[1.01]">
             <div class="verse-content">
                 <p id="lucky-message-text" class="verse-text-style">Clique para receber seu versículo de hoje...</p>
@@ -193,18 +200,17 @@
         // Função para ajustar o tamanho da fonte do versículo com base no seu comprimento
         function adjustFontSizeForVerse(verse) {
             const verseLength = verse.length;
-            const maxNormalLength = 250; // Versículos até 250 caracteres terão o tamanho de fonte normal
-            const minFontSize = 1.2; // Tamanho mínimo da fonte em 'rem'
-            const maxFontSize = 3; // Tamanho máximo da fonte em 'rem' para Tangerine
+            const maxNormalLength = 250; 
+            const minFontSize = 1.2; 
+            const maxFontSize = 3;
             const verseTextStyle = luckyMessageText.style;
             
+            // Lógica para ajustar o tamanho da fonte com base no comprimento do texto
             if (verseLength > maxNormalLength) {
-                // Diminui a fonte para textos mais longos de forma linear
                 const reductionFactor = Math.log(verseLength / maxNormalLength) / Math.log(824 / maxNormalLength);
                 const newFontSize = maxFontSize - (reductionFactor * (maxFontSize - minFontSize));
                 verseTextStyle.fontSize = `${Math.max(newFontSize, minFontSize)}rem`;
             } else {
-                // Mantém o tamanho normal para versículos curtos ou de tamanho médio
                 verseTextStyle.fontSize = `${maxFontSize}rem`;
             }
         }
