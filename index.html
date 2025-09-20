@@ -17,7 +17,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Importando as novas fontes */
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
@@ -93,19 +93,19 @@
         }
         
         .verse-text-style {
-            /* A fonte foi alterada para Cormorant Garamond */
-            font-family: 'Cormorant Garamond', serif;
-            /* O tamanho da fonte é agora definido por JavaScript para se ajustar ao conteúdo */
+            /* A fonte foi alterada para Tangerine */
+            font-family: 'Tangerine', cursive;
+            font-size: 3rem; /* Tamanho de fonte padrão para Tangerine */
             font-weight: normal;
-            color: #6B7280; /* Cor alterada para um cinza mais claro */
+            color: #374151; /* Cor alterada para um cinza mais escuro */
             text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
         }
         
         .verse-reference-style {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem; /* Tamanho do texto ajustado para ser responsivo */
+            font-family: 'Tangerine', cursive;
+            font-size: 2rem; /* Tamanho do texto ajustado para ser responsivo */
             font-weight: bold;
-            color: #6B7280; /* Cor alterada para um cinza mais claro */
+            color: #374151; /* Cor alterada para um cinza mais escuro */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
             margin-top: 1rem;
         }
@@ -168,6 +168,7 @@
             <img class="content-image w-16 h-16 object-cover rounded-xl flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/64x64/E0E0E0/808080?text=Sem+Imagem';"/>
             <div class="flex-grow flex flex-col items-start min-w-0">
                 <h3 class="text-sm md:text-md text-gray-900 font-normal" id="content-title"></h3>
+                <p class="offer-description text-xs text-gray-500 mt-1" id="offer-description"></p>
             </div>
         </a>
     </div>
@@ -194,7 +195,7 @@
             const verseLength = verse.length;
             const maxNormalLength = 250; // Versículos até 250 caracteres terão o tamanho de fonte normal
             const minFontSize = 1.2; // Tamanho mínimo da fonte em 'rem'
-            const maxFontSize = 2.5; // Tamanho máximo da fonte em 'rem'
+            const maxFontSize = 3; // Tamanho máximo da fonte em 'rem' para Tangerine
             const verseTextStyle = luckyMessageText.style;
             
             if (verseLength > maxNormalLength) {
