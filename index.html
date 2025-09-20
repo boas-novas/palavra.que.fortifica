@@ -171,7 +171,7 @@
             getMessageButton.disabled = true;
             shareButton.classList.add('hidden');
             copyButton.classList.add('hidden');
-            luckyMessageText.textContent = "Buscando o versículo...";
+            luckyMessageText.textContent = "Buscando um versículo...";
             verseReference.classList.add('hidden');
             luckyMessageText.classList.add('animate-pulse');
             
@@ -183,7 +183,7 @@
                 const data = await response.json();
                 if (data && data.message) {
                     let message = data.message;
-                    let verse = "Versículo inválido.";
+                    let verse = "Registro inválido.";
                     let reference = "";
 
                     // Lógica para formatar o versículo no padrão desejado
@@ -211,7 +211,7 @@
                         copyButton.classList.remove('hidden');
                     }
                 } else {
-                    luckyMessageText.textContent = "Não foi possível carregar o versículo. Tente novamente mais tarde.";
+                    luckyMessageText.textContent = "Não foi possível carregar um versículo. Tente novamente mais tarde.";
                     verseReference.classList.add('hidden');
                 }
             } catch (error) {
@@ -462,3 +462,4 @@
     </script>
 </body>
 </html>
+
