@@ -16,7 +16,8 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+        /* Importando as novas fontes */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
@@ -62,74 +63,95 @@
             display: flex;
             opacity: 1;
         }
-
-        /* Animação de fundo para a seção de versículos */
-        .animated-bg {
-            background: linear-gradient(135deg, #e3f2fd, #fce4ec, #e8f5e9);
-            background-size: 200% 200%;
-            animation: background-move 10s ease infinite;
+        
+        /* Novos estilos para a área do versículo, baseados na sua referência */
+        .verse-card {
+            background-image: url('https://raw.githubusercontent.com/boas-novas/palavra.que.fortifica/refs/heads/main/fundo-pqf.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            /* Usando um aspect ratio para manter a proporção do design original */
+            aspect-ratio: 1080 / 1350;
+            max-height: 80vh; /* Limita a altura em telas grandes */
         }
-
-        @keyframes background-move {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        
+        .verse-content {
+            z-index: 2;
+            padding: 80px 50px 80px 80px;
+            text-align: left;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
         }
-
-        /* Fonte elegante para o versículo */
-        .verse-text {
-            font-family: 'Merriweather', serif;
-            font-weight: 400;
+        
+        .verse-text-style {
+            /* A fonte foi alterada para Cormorant Garamond */
+            font-family: 'Cormorant Garamond', serif;
+            /* O tamanho da fonte é agora definido por JavaScript para se ajustar ao conteúdo */
+            font-weight: normal;
+            color: #6B7280; /* Cor alterada para um cinza mais claro */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        .verse-reference-style {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem; /* Tamanho do texto ajustado para ser responsivo */
+            font-weight: bold;
+            color: #6B7280; /* Cor alterada para um cinza mais claro */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col items-center">
 
-    <!-- Seção de Versículos (Ocupa 65-70% da altura da tela e é centralizada) -->
+    <!-- Seção de Versículos (Ocupa a maior parte da tela e é centralizada) -->
     <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
-        <div class="message-app-container animated-bg shadow-lg rounded-3xl p-6 text-center flex flex-col items-center justify-center w-full max-w-2xl transform transition-transform duration-300 hover:scale-[1.01] backdrop-blur-md" style="min-height: 65vh;">
-            <div id="verse-container" class="flex flex-col items-center justify-center min-h-[50px]">
-                <p id="lucky-message-text" class="verse-text text-2xl md:text-3xl lg:text-4xl text-gray-700 font-semibold mb-4">Clique para receber seu versículo de hoje...</p>
-                <p id="verse-reference" class="text-xl md:text-2xl text-gray-700 font-bold hidden"></p>
+        <div class="verse-card shadow-lg rounded-3xl w-full max-w-xl transform transition-transform duration-300 hover:scale-[1.01]">
+            <div class="verse-content">
+                <p id="lucky-message-text" class="verse-text-style">Clique para receber seu versículo de hoje...</p>
+                <p id="verse-reference" class="verse-reference-style hidden"></p>
             </div>
-            
-            <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
-                <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
-                        <path d="M12 7v8"></path>
-                    </svg>
-                    Novo versículo
-                </button>
-                <!-- Botões de compartilhamento/cópia. Um deles será exibido após o carregamento da mensagem. -->
-                <button id="share-button" class="px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="18" cy="5" r="3" />
-                        <circle cx="6" cy="12" r="3" />
-                        <circle cx="18" cy="19" r="3" />
-                        <path d="M8.59 13.51l6.83 4.98" />
-                        <path d="M15.41 5.49l-6.83 4.98" />
-                    </svg>
-                    Compartilhar
-                </button>
-                <button id="copy-button" class="px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                    Copiar
-                </button>
-            </div>
-            
-            <div id="copy-confirmation" class="copy-confirmation mt-2 text-sm text-green-600 font-semibold">
-                Versículo copiado!
-            </div>
+        </div>
+        
+        <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
+            <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
+                    <path d="M12 7v8"></path>
+                </svg>
+                Novo versículo
+            </button>
+            <!-- Botões de compartilhamento/cópia. Um deles será exibido após o carregamento da mensagem. -->
+            <button id="share-button" class="px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3" />
+                    <circle cx="6" cy="12" r="3" />
+                    <circle cx="18" cy="19" r="3" />
+                    <path d="M8.59 13.51l6.83 4.98" />
+                    <path d="M15.41 5.49l-6.83 4.98" />
+                </svg>
+                Compartilhar
+            </button>
+            <button id="copy-button" class="px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                Copiar
+            </button>
+        </div>
+        
+        <div id="copy-confirmation" class="copy-confirmation mt-2 text-sm text-green-600 font-semibold">
+            Versículo copiado!
         </div>
     </main>
 
@@ -167,6 +189,25 @@
         const ogDescriptionMeta = document.getElementById('og-description');
         const MAX_RETRIES = 3;
 
+        // Função para ajustar o tamanho da fonte do versículo com base no seu comprimento
+        function adjustFontSizeForVerse(verse) {
+            const verseLength = verse.length;
+            const maxNormalLength = 250; // Versículos até 250 caracteres terão o tamanho de fonte normal
+            const minFontSize = 1.2; // Tamanho mínimo da fonte em 'rem'
+            const maxFontSize = 2.5; // Tamanho máximo da fonte em 'rem'
+            const verseTextStyle = luckyMessageText.style;
+            
+            if (verseLength > maxNormalLength) {
+                // Diminui a fonte para textos mais longos de forma linear
+                const reductionFactor = Math.log(verseLength / maxNormalLength) / Math.log(824 / maxNormalLength);
+                const newFontSize = maxFontSize - (reductionFactor * (maxFontSize - minFontSize));
+                verseTextStyle.fontSize = `${Math.max(newFontSize, minFontSize)}rem`;
+            } else {
+                // Mantém o tamanho normal para versículos curtos ou de tamanho médio
+                verseTextStyle.fontSize = `${maxFontSize}rem`;
+            }
+        }
+
         async function fetchLuckyMessage(retries = MAX_RETRIES) {
             getMessageButton.disabled = true;
             shareButton.classList.add('hidden');
@@ -202,6 +243,9 @@
                     luckyMessageText.textContent = `"${verse}"`;
                     verseReference.textContent = reference;
                     verseReference.classList.remove('hidden');
+
+                    // Chama a nova função para ajustar a fonte
+                    adjustFontSizeForVerse(verse);
 
                     updateMetaTags(message);
                     
@@ -462,4 +506,3 @@
     </script>
 </body>
 </html>
-
