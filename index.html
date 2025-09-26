@@ -187,7 +187,7 @@
     
     <script>
         // --- Lógica de Versículos Bíblicos ---
-        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhqQuOJdMtgAXIbJ89HUnPWoE70/exec"; // Alterada para a URL correta (pequena correção no final)
+        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec"; // Alterada para a URL correta (pequena correção no final)
         const luckyMessageText = document.getElementById('lucky-message-text');
         const verseReference = document.getElementById('verse-reference');
         const getMessageButton = document.getElementById('get-message-button');
@@ -196,6 +196,12 @@
         const copyConfirmation = document.getElementById('copy-confirmation');
         const ogDescriptionMeta = document.getElementById('og-description');
         const MAX_RETRIES = 3;
+        
+        // Função utilitária para delay (usada para retry em ambas as seções)
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
 
         // Função para ajustar o tamanho da fonte do versículo com base no seu comprimento
         function adjustFontSizeForVerse(verse) {
@@ -267,8 +273,15 @@
                 }
             } catch (error) {
                 console.error(`Falha ao buscar versículo:`, error);
-                // MENSAGEM DE ERRO AJUSTADA CONFORME SOLICITADO
-                luckyMessageText.textContent = "Não foi possível carregar o versículo. Tente novamente mais tarde."; 
+                
+                if (retries > 1) {
+                    console.log(`Tentando novamente buscar o versículo. Tentativas restantes: ${retries - 1}`);
+                    await delay(1000); 
+                    return fetchLuckyMessage(retries - 1);
+                }
+                
+                // MENSAGEM DE ERRO AJUSTADA
+                luckyMessageText.textContent = "Não foi possível carregar o versículo no momento, tente novamente mais tarde."; 
                 verseReference.classList.add('hidden');
             } finally {
                 getMessageButton.disabled = false;
@@ -377,10 +390,6 @@
             }
             result.push(currentField.trim());
             return result;
-        }
-
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         async function fetchAndParseCsv(url, retries = MAX_RETRIES) {
