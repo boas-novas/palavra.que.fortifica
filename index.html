@@ -171,7 +171,8 @@
             Carregando ofertas...
         </div>
         <a id="content-link" href="#" target="_blank" rel="noopener noreferrer" class="content-wrapper w-full flex items-center gap-3 pr-8 no-underline text-current block">
-            <img class="content-image w-16 h-16 object-cover rounded-xl flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/64x64/E0E0E0/808080?text=Sem+Imagem';"/>
+            <!-- CLASSE ALTERADA AQUI: w-16 h-16 -> w-24 h-24. Placeholder alterado para 96x96 -->
+            <img class="content-image w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/96x96/E0E0E0/808080?text=Sem+Imagem';"/>
             <div class="flex-grow flex flex-col items-start min-w-0">
                 <h3 class="text-sm md:text-md text-gray-900 font-normal" id="content-title"></h3>
                 <p class="offer-description text-xs text-gray-500 mt-1" id="offer-description"></p>
@@ -186,7 +187,7 @@
     
     <script>
         // --- Lógica de Versículos Bíblicos ---
-        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec";
+        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhqQuOJdMtgAXIbJ89HUnPWoE70/exec"; // Alterada para a URL correta (pequena correção no final)
         const luckyMessageText = document.getElementById('lucky-message-text');
         const verseReference = document.getElementById('verse-reference');
         const getMessageButton = document.getElementById('get-message-button');
@@ -266,7 +267,8 @@
                 }
             } catch (error) {
                 console.error(`Falha ao buscar versículo:`, error);
-                luckyMessageText.textContent = "Erro de rede. Verifique a sua conexão ou a URL da planilha.";
+                // MENSAGEM DE ERRO AJUSTADA CONFORME SOLICITADO
+                luckyMessageText.textContent = "Não foi possível carregar o versículo. Tente novamente mais tarde."; 
                 verseReference.classList.add('hidden');
             } finally {
                 getMessageButton.disabled = false;
@@ -336,6 +338,7 @@
         const contentSection = document.getElementById('content-area');
         const contentLink = document.getElementById('content-link');
         const contentTitleElement = document.getElementById('content-title');
+        const offerDescriptionElement = document.getElementById('offer-description'); // Novo elemento de descrição
         const contentImage = document.getElementById('content-image');
         const collapseButton = document.getElementById('collapse-button');
         const collapseIconUp = document.getElementById('collapse-icon-up');
@@ -438,10 +441,12 @@
                 let itemName = randomOffer['Item_Name'] || "Oferta Especial";
                 const offerLink = randomOffer['Offer_Link'];
                 const imgUrl = randomOffer['img'];
+                const description = randomOffer['Description'] || "Clique para ver mais detalhes e apoiar o site.";
 
                 contentTitleElement.textContent = itemName;
-                contentImage.src = imgUrl || "https://placehold.co/64x64/E0E0E0/808080?text=Sem+Imagem";
-                
+                contentImage.src = imgUrl || "https://placehold.co/96x96/E0E0E0/808080?text=Sem+Imagem"; // Atualizado para 96x96
+                offerDescriptionElement.textContent = description; // Adicionado
+
                 if (offerLink) {
                     contentLink.href = offerLink;
                 } else {
