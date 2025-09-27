@@ -139,8 +139,8 @@
                     Novo versículo
                 </button>
                 
-                <!-- Mensagem Centralizada e Estilizada (Melhor Visual) -->
-                <p class="text-center text-sm italic text-gray-700 bg-yellow-50 p-3 rounded-xl border border-yellow-200 shadow-sm w-full">Deus te despertou hoje? Já o agradeceu por mais um dia? <strong>Compartilhe</strong> esta mensagem. </p>
+                <!-- Mensagem Centralizada e Estilizada (Melhor Visual) - AGORA COM ID E INICIALMENTE OCULTA -->
+                <p id="encouragement-message" class="hidden text-center text-sm italic text-gray-700 bg-yellow-50 p-3 rounded-xl border border-yellow-200 shadow-sm w-full"><strong>Deus</strong> te despertou hoje? Já o agradeceu por mais um dia? <strong>Compartilhe</strong> esta mensagem. </p>
                 
                 <!-- Agrupando Botões de Compartilhamento em uma Linha -->
                 <div class="flex flex-row gap-4 justify-center w-full">
@@ -196,7 +196,8 @@
     
     <script>
         // --- Lógica de Versículos Bíblicos ---
-        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec"; // Alterada para a URL correta (pequena correção no final)
+        // URL ATUALIZADA com o novo link fornecido.
+        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec"; 
         const luckyMessageText = document.getElementById('lucky-message-text');
         const verseReference = document.getElementById('verse-reference');
         const getMessageButton = document.getElementById('get-message-button');
@@ -204,6 +205,7 @@
         const copyButton = document.getElementById('copy-button');
         const copyConfirmation = document.getElementById('copy-confirmation');
         const ogDescriptionMeta = document.getElementById('og-description');
+        const encouragementMessage = document.getElementById('encouragement-message'); // NOVO: Elemento da mensagem de encorajamento
         const MAX_RETRIES = 3;
         
         // Função utilitária para delay (usada para retry em ambas as seções)
@@ -234,11 +236,13 @@
             getMessageButton.disabled = true;
             shareButton.classList.add('hidden');
             copyButton.classList.add('hidden');
+            encouragementMessage.classList.add('hidden'); // NOVO: Oculta a mensagem no início do carregamento
             luckyMessageText.textContent = "Buscando um versículo...";
             verseReference.classList.add('hidden');
             luckyMessageText.classList.add('animate-pulse');
             
             try {
+                // A URL API foi atualizada acima
                 const response = await fetch(VERSE_API_URL);
                 if (!response.ok) {
                     throw new Error(`Erro HTTP! Status: ${response.status}`);
@@ -271,6 +275,9 @@
 
                     updateMetaTags(message);
                     
+                    // NOVO: Exibe a mensagem de encorajamento
+                    encouragementMessage.classList.remove('hidden');
+
                     if (navigator.share) {
                         shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
                         shareButton.classList.remove('hidden');
@@ -309,12 +316,12 @@
         // Função para compartilhar o versículo usando a API nativa
         function shareMessage() {
             // Nova mensagem de incentivo para compartilhar o link
-            const encouragementMessage = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
+            const encouragementMessageText = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
 
             if (navigator.share) {
                 navigator.share({
                     title: 'Versículo Bíblico Diário',
-                    text: encouragementMessage, // Usando a nova mensagem de incentivo
+                    text: encouragementMessageText, // Usando a nova mensagem de incentivo
                     url: window.location.href // Deixa o WhatsApp adicionar a URL
                 }).then(() => {
                     console.log('Mensagem compartilhada com sucesso!');
@@ -330,11 +337,11 @@
         // Função para copiar o versículo para a área de transferência
         function copyMessage() {
             // A mensagem copiada agora é a mesma mensagem de incentivo
-            const encouragementMessage = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
+            const encouragementMessageText = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
 
             // Cria um elemento de texto temporário para a cópia
             const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = encouragementMessage;
+            tempTextarea.value = encouragementMessageText;
             document.body.appendChild(tempTextarea);
             tempTextarea.select();
 
@@ -539,4 +546,3 @@
     </script>
 </body>
 </html>
-
