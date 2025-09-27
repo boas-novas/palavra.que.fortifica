@@ -126,36 +126,42 @@
                 <p id="lucky-message-text" class="verse-text-style">Clique para receber seu versículo de hoje...</p>
                 <p id="verse-reference" class="verse-reference-style hidden"></p>
             </div>
-            <!-- Os botões foram movidos para dentro do card para evitar sobreposição de texto -->
-            <div id="message-buttons" class="mt-6 flex flex-col sm:flex-row gap-4 items-center">
-                <button id="get-message-button" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+            
+            <!-- REESTRUTURAÇÃO VISUAL APLICADA AQUI: O container agora é sempre coluna para melhor fluxo vertical. -->
+            <div id="message-buttons" class="mt-6 flex flex-col gap-4 items-center w-full max-w-sm mx-auto">
+                
+                <!-- Botão Principal -->
+                <button id="get-message-button" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex justify-center items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
                         <path d="M12 7v8"></path>
                     </svg>
                     Novo versículo
                 </button>
-                <!-- Botões de compartilhamento/cópia. Um deles será exibido após o carregamento da mensagem. -->
                 
-                <p>Deus te despertou hoje? Já o agradeceu por mais um dia? Diga Amém e compartilhe esta mensagem. </p>
-                               
-                <button id="share-button" class="px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="18" cy="5" r="3" />
-                        <circle cx="6" cy="12" r="3" />
-                        <circle cx="18" cy="19" r="3" />
-                        <path d="M8.59 13.51l6.83 4.98" />
-                        <path d="M15.41 5.49l-6.83 4.98" />
-                    </svg>
-                    Compartilhar
-                </button>
-                <button id="copy-button" class="px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                    Copiar
-                </button>
+                <!-- Mensagem Centralizada e Estilizada (Melhor Visual) -->
+                <p class="text-center text-sm italic text-gray-700 bg-yellow-50 p-3 rounded-xl border border-yellow-200 shadow-sm w-full">Deus te despertou hoje? Já o agradeceu por mais um dia? Diga <strong>Amém</strong> e compartilhe esta mensagem. </p>
+                
+                <!-- Agrupando Botões de Compartilhamento em uma Linha -->
+                <div class="flex flex-row gap-4 justify-center w-full">
+                    <button id="share-button" class="w-1/2 px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex justify-center items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="18" cy="5" r="3" />
+                            <circle cx="6" cy="12" r="3" />
+                            <circle cx="18" cy="19" r="3" />
+                            <path d="M8.59 13.51l6.83 4.98" />
+                            <path d="M15.41 5.49l-6.83 4.98" />
+                        </svg>
+                        Compartilhar
+                    </button>
+                    <button id="copy-button" class="w-1/2 px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex justify-center items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        Copiar
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -209,8 +215,8 @@
         // Função para ajustar o tamanho da fonte do versículo com base no seu comprimento
         function adjustFontSizeForVerse(verse) {
             const verseLength = verse.length;
-            const maxNormalLength = 250; 
-            const minFontSize = 1.2; 
+            const maxNormalLength = 250;  
+            const minFontSize = 1.2;  
             const maxFontSize = 3;
             const verseTextStyle = luckyMessageText.style;
             
@@ -266,9 +272,13 @@
                     updateMetaTags(message);
                     
                     if (navigator.share) {
+                        shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
                         shareButton.classList.remove('hidden');
+                        copyButton.classList.add('hidden');
                     } else {
+                        shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
                         copyButton.classList.remove('hidden');
+                        shareButton.classList.add('hidden');
                     }
                 } else {
                     luckyMessageText.textContent = "Não foi possível carregar um versículo. Tente novamente mais tarde.";
@@ -279,7 +289,7 @@
                 
                 if (retries > 1) {
                     console.log(`Tentando novamente buscar o versículo. Tentativas restantes: ${retries - 1}`);
-                    await delay(1000); 
+                    await delay(1000);  
                     return fetchLuckyMessage(retries - 1);
                 }
                 
@@ -529,4 +539,3 @@
     </script>
 </body>
 </html>
-
