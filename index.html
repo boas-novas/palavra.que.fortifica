@@ -1,553 +1,551 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="U1LCaadUjOH78-O8fciGYOnP3Q0HbZtPZj6hsy_vJm4" />
-    <title>Versículos Bíblicos Diários - Sua Bíblia Diária</title>
-    <meta name="description" content="Receba um versículo bíblico aleatório para inspirar seu dia. App Web gratuito com passagens da Bíblia Sagrada.">
-    <!-- Adicionando um favicon de uma Bíblia com um SVG embutido para compatibilidade -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20V6.5A2.5 2.5 0 0 0 17.5 4h-11A2.5 2.5 0 0 0 4 6.5v13z' /><path d='M12 4v13' /><path d='M4 19.5v-11' /></svg>" />
-    <!-- Open Graph Protocol para compartilhamento rico -->
-    <meta property="og:title" content="Versículos Bíblicos Diários - Sua Bíblia Diária">
-    <meta property="og:description" id="og-description" content="Receba um versículo bíblico aleatório para inspirar seu dia. App Web gratuito com passagens da Bíblia Sagrada.">
-    <meta property="og:image" content="https://mosaico-top.github.io/mensagem-do-dia/logo.jpg">
-    <meta property="og:url" content="https://mosaico-top.github.io/mensagem-do-dia/">
-    <meta property="og:type" content="website">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="U1LCaadUjOH78-O8fciGYOnP3Q0HbZtPZj6hsy_vJm4" />
+    <title>Versículos Bíblicos Diários - Sua Bíblia Diária</title>
+    <meta name="description" content="Receba um versículo bíblico aleatório para inspirar seu dia. App Web gratuito com passagens da Bíblia Sagrada.">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20V6.5A2.5 2.5 0 0 0 17.5 4h-11A2.5 2.5 0 0 0 4 6.5v13z' /><path d='M12 4v13' /><path d='M4 19.5v-11' /></svg>" />
+        <meta property="og:title" content="Versículos Bíblicos Diários - Sua Bíblia Diária">
+    <meta property="og:description" id="og-description" content="Receba um versículo bíblico aleatório para inspirar seu dia. App Web gratuito com passagens da Bíblia Sagrada.">
+    <meta property="og:image" content="https://mosaico-top.github.io/mensagem-do-dia/logo.jpg">
+    <meta property="og:url" content="https://mosaico-top.github.io/mensagem-do-dia/">
+    <meta property="og:type" content="website">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Importando as novas fontes */
-        @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+        <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importando as novas fontes */
+        @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Inter:wght@100..900&display=swap'); /* Inter adicionada explicitamente */
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            /* Adicionado para evitar rolagem horizontal em mobile */
-            overflow-x: hidden; 
-        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* Adicionado para evitar rolagem horizontal em mobile */
+            overflow-x: hidden; 
+        }
 
-        /* Estilos do estado recolhido do carrossel */
-        .content-section.collapsed {
-            height: 80px;
-        }
-        .content-section.collapsed .content-wrapper,
-        .content-section.collapsed .cta-button,
-        .content-section.collapsed .content-image,
-        .content-section.collapsed .offer-description {
-            display: none !important;
-        }
-        .content-section.collapsed .loading-state {
-            display: flex !important;
-        }
+        /* Estilo para o H1 principal */
+        .main-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800; /* Extra Bold */
+            color: #374151; /* Cinza escuro */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
 
-        /* Estilo para a mensagem de confirmação */
-        .copy-confirmation {
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .copy-confirmation.visible {
-            opacity: 1;
-        }
+        /* Estilos do estado recolhido do carrossel */
+        .content-section.collapsed {
+            height: 80px;
+        }
+        .content-section.collapsed .content-wrapper,
+        .content-section.collapsed .cta-button,
+        .content-section.collapsed .content-image,
+        .content-section.collapsed .offer-description {
+            display: none !important;
+        }
+        .content-section.collapsed .loading-state {
+            display: flex !important;
+        }
 
-        /* Estilos para o estado de carregamento do carrossel */
-        .content-section.loading .content-wrapper {
-            opacity: 0;
-            display: none;
-        }
+        /* Estilo para a mensagem de confirmação */
+        .copy-confirmation {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .copy-confirmation.visible {
+            opacity: 1;
+        }
 
-        .content-section .loading-state {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
+        /* Estilos para o estado de carregamento do carrossel */
+        .content-section.loading .content-wrapper {
+            opacity: 0;
+            display: none;
+        }
 
-        .content-section.loading .loading-state {
-            display: flex;
-            opacity: 1;
-        }
-        
-        /* Novos estilos para a área do versículo, baseados na sua referência */
-        .verse-card {
-            background-image: url('https://raw.githubusercontent.com/boas-novas/palavra.que.fortifica/refs/heads/main/fundo-pqf.jpg');
-            background-size: 100% auto; /* Ajustado para preencher a largura e manter a proporção */
-            background-position: center top;
-            background-repeat: repeat-y; /* Permite que o fundo se repita verticalmente */
-            position: relative;
-            /* Removido a altura fixa para permitir que o card se adapte ao conteúdo */
-            min-height: 50vh; /* Define uma altura mínima para manter a estética para versículos curtos */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2.5rem 2rem;
-        }
-        
-        .verse-content {
-            /* Removido position: absolute e height: 100% para que o contêiner se expanda com o texto */
-            z-index: 2;
-            text-align: left;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            /* Adicionado para quebrar o texto longo em mobile */
-            word-wrap: break-word; 
-            overflow-wrap: break-word;
-        }
-        
-        .verse-text-style {
-            /* A fonte foi alterada para Tangerine */
-            font-family: 'Tangerine', cursive;
-            font-size: 3rem; /* Tamanho de fonte padrão para Tangerine */
-            font-weight: normal;
-            color: #374151; /* Cor alterada para um cinza mais escuro */
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
-            line-height: 1.1; /* Ajustado para melhorar a legibilidade em versículos longos */
-        }
-        
-        .verse-reference-style {
-            font-family: 'Tangerine', cursive;
-            font-size: 2rem; /* Tamanho do texto ajustado para ser responsivo */
-            font-weight: bold;
-            color: #374151; /* Cor alterada para um cinza mais escuro */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-            margin-top: 1rem;
-        }
-    </style>
+        .content-section .loading-state {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .content-section.loading .loading-state {
+            display: flex;
+            opacity: 1;
+        }
+        
+        /* Novos estilos para a área do versículo, baseados na sua referência */
+        .verse-card {
+            background-image: url('https://raw.githubusercontent.com/boas-novas/palavra.que.fortifica/refs/heads/main/fundo-pqf.jpg');
+            background-size: 100% auto; /* Ajustado para preencher a largura e manter a proporção */
+            background-position: center top;
+            background-repeat: repeat-y; /* Permite que o fundo se repita verticalmente */
+            position: relative;
+            /* Removido a altura fixa para permitir que o card se adapte ao conteúdo */
+            min-height: 50vh; /* Define uma altura mínima para manter a estética para versículos curtos */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem 2rem;
+        }
+        
+        .verse-content {
+            /* Removido position: absolute e height: 100% para que o contêiner se expanda com o texto */
+            z-index: 2;
+            text-align: left;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            /* Adicionado para quebrar o texto longo em mobile */
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
+        }
+        
+        .verse-text-style {
+            /* A fonte foi alterada para Tangerine */
+            font-family: 'Tangerine', cursive;
+            font-size: 3rem; /* Tamanho de fonte padrão para Tangerine */
+            font-weight: normal;
+            color: #374151; /* Cor alterada para um cinza mais escuro */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.1; /* Ajustado para melhorar a legibilidade em versículos longos */
+        }
+        
+        .verse-reference-style {
+            font-family: 'Tangerine', cursive;
+            font-size: 2rem; /* Tamanho do texto ajustado para ser responsivo */
+            font-weight: bold;
+            color: #374151; /* Cor alterada para um cinza mais escuro */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-800 flex flex-col items-center">
 
-    <!-- Seção de Versículos (Ocupa a maior parte da tela e é centralizada) -->
-    <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
-        <!-- O contêiner de cartão foi ajustado para permitir a expansão do texto -->
-        <div class="verse-card shadow-lg rounded-3xl w-full max-w-xl transform transition-transform duration-300 hover:scale-[1.01]">
-            <div class="verse-content">
-                <p id="lucky-message-text" class="verse-text-style">Bem-vindo(a)! Receba aqui o seu versículo bíblico diário aleatório para inspiração e reflexão.</p>
-                <p id="verse-reference" class="verse-reference-style hidden"></p>
-            </div>
-            
-            <!-- REESTRUTURAÇÃO VISUAL APLICADA AQUI: O container agora é sempre coluna para melhor fluxo vertical. -->
-            <div id="message-buttons" class="mt-6 flex flex-col gap-4 items-center w-full max-w-sm mx-auto">
-                
-                <!-- Botão Principal -->
-                <button id="get-message-button" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex justify-center items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
-                        <path d="M12 7v8"></path>
-                    </svg>
-                    Novo versículo
-                </button>
-                
-                <!-- Mensagem Centralizada e Estilizada (Melhor Visual) - AGORA COM ID E INICIALMENTE OCULTA -->
-                <p id="encouragement-message" class="hidden text-center text-sm italic text-gray-700 bg-yellow-50 p-3 rounded-xl border border-yellow-200 shadow-sm w-full"><strong>Deus</strong> te despertou hoje? Já o agradeceu por mais um dia? <strong>Compartilhe</strong> esta mensagem. </p>
-                
-                <!-- Agrupando Botões de Compartilhamento em uma Linha -->
-                <div class="flex flex-row gap-4 justify-center w-full">
-                    <button id="share-button" class="w-1/2 px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex justify-center items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="18" cy="5" r="3" />
-                            <circle cx="6" cy="12" r="3" />
-                            <circle cx="18" cy="19" r="3" />
-                            <path d="M8.59 13.51l6.83 4.98" />
-                            <path d="M15.41 5.49l-6.83 4.98" />
-                        </svg>
-                        Compartilhar
-                    </button>
-                    <button id="copy-button" class="w-1/2 px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex justify-center items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                        </svg>
-                        Copiar
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="copy-confirmation" class="copy-confirmation mt-2 text-sm text-green-600 font-semibold">
-            Versículo copiado!
-        </div>
-    </main>
+        <main class="flex flex-col items-center justify-center w-full flex-grow p-4 md:p-8">
+        
+                <h1 class="main-title text-3xl md:text-4xl lg:text-5xl text-center mb-6 px-4">
+            Versículo do Dia ✨
+        </h1>
+        
+                <div class="verse-card shadow-lg rounded-3xl w-full max-w-xl transform transition-transform duration-300 hover:scale-[1.01]">
+            <div class="verse-content">
+                <p id="lucky-message-text" class="verse-text-style">Bem-vindo(a)! Receba aqui o seu versículo bíblico diário aleatório para inspiração e reflexão.</p>
+                <p id="verse-reference" class="verse-reference-style hidden"></p>
+            </div>
+            
+                        <div id="message-buttons" class="mt-6 flex flex-col gap-4 items-center w-full max-w-sm mx-auto">
+                
+                                <button id="get-message-button" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-105 flex justify-center items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a5 5 0 0 0-5 5c0 1.25.5 2.5 1.5 3.5L12 17l3.5-6.5C16.5 9.5 17 8.25 17 7a5 5 0 0 0-5-5z"></path>
+                        <path d="M12 7v8"></path>
+                    </svg>
+                    Novo versículo
+                </button>
+                
+                                <p id="encouragement-message" class="hidden text-center text-sm italic text-gray-700 bg-yellow-50 p-3 rounded-xl border border-yellow-200 shadow-sm w-full"><strong>Deus</strong> te despertou hoje? Já o agradeceu por mais um dia? <strong>Compartilhe</strong> esta mensagem. </p>
+                
+                                <div class="flex flex-row gap-4 justify-center w-full">
+                    <button id="share-button" class="w-1/2 px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-bold rounded-full shadow-lg hover:from-emerald-600 hover:to-emerald-800 transition-all duration-300 transform hover:scale-105 hidden flex justify-center items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="18" cy="5" r="3" />
+                            <circle cx="6" cy="12" r="3" />
+                            <circle cx="18" cy="19" r="3" />
+                            <path d="M8.59 13.51l6.83 4.98" />
+                            <path d="M15.41 5.49l-6.83 4.98" />
+                        </svg>
+                        Compartilhar
+                    </button>
+                    <button id="copy-button" class="w-1/2 px-6 py-3 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 font-bold rounded-full shadow-lg hover:from-yellow-400 hover:to-yellow-600 hover:text-white transition-all duration-300 transform hover:scale-105 hidden flex justify-center items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                        Copiar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="copy-confirmation" class="copy-confirmation mt-2 text-sm text-green-600 font-semibold">
+            Versículo copiado!
+        </div>
+    </main>
 
-    <!-- Seção do Carrossel de Ofertas (Fixo na parte inferior) -->
-    <div id="content-area" class="content-section w-full max-w-2xl bg-slate-100 shadow-lg rounded-t-2xl p-3 flex flex-col justify-center items-center relative fixed bottom-0 left-0 right-0 mx-auto z-50">
-        <button class="absolute top-2 right-2 p-1 bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-400 transition-transform duration-300 z-10" id="collapse-button" title="Recolher Carrossel">
-            <svg id="collapse-icon-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 10l5 5 5-5z"/></svg>
-            <svg id="collapse-icon-down" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 14l5-5 5 5z"/></svg>
-        </button>
-        <div class="loading-state flex-grow text-center text-gray-500 font-semibold">
-            Carregando ofertas...
-        </div>
-        <a id="content-link" href="#" target="_blank" rel="noopener noreferrer" class="content-wrapper w-full flex items-center gap-3 pr-8 no-underline text-current block">
-            <!-- CLASSE ALTERADA AQUI: w-16 h-16 -> w-24 h-24. Placeholder alterado para 96x96 -->
-            <img class="content-image w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/96x96/E0E0E0/808080?text=Sem+Imagem';"/>
-            <div class="flex-grow flex flex-col items-start min-w-0">
-                <h3 class="text-sm md:text-md text-gray-900 font-normal" id="content-title"></h3>
-                <p class="offer-description text-xs text-gray-500 mt-1" id="offer-description"></p>
-            </div>
-        </a>
-    </div>
+        <div id="content-area" class="content-section w-full max-w-2xl bg-slate-100 shadow-lg rounded-t-2xl p-3 flex flex-col justify-center items-center relative fixed bottom-0 left-0 right-0 mx-auto z-50">
+        <button class="absolute top-2 right-2 p-1 bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-400 transition-transform duration-300 z-10" id="collapse-button" title="Recolher Carrossel">
+            <svg id="collapse-icon-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 10l5 5 5-5z"/></svg>
+            <svg id="collapse-icon-down" style="display: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M7 14l5-5 5 5z"/></svg>
+        </button>
+        <div class="loading-state flex-grow text-center text-gray-500 font-semibold">
+            Carregando ofertas...
+        </div>
+        <a id="content-link" href="#" target="_blank" rel="noopener noreferrer" class="content-wrapper w-full flex items-center gap-3 pr-8 no-underline text-current block">
+                        <img class="content-image w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm" id="content-image" src="" alt="Imagem da Oferta" onerror="this.src='https://placehold.co/96x96/E0E0E0/808080?text=Sem+Imagem';"/>
+            <div class="flex-grow flex flex-col items-start min-w-0">
+                <h3 class="text-sm md:text-md text-gray-900 font-normal" id="content-title"></h3>
+                <p class="offer-description text-xs text-gray-500 mt-1" id="offer-description"></p>
+            </div>
+        </a>
+    </div>
 
-    <!-- Mensagem de Rodapé sobre Publicidade -->
-    <div class="w-full max-w-2xl text-gray-600 text-center text-sm rounded-lg p-3 mt-4">
-        Não coletamos suas informações pessoais. Para continuar oferecendo mensagens de forma gratuita e sem coletar seus dados, contamos com a ajuda de publicidade. Você ajuda o site sem pagar nada a mais por isso.
-    </div>
-    
-    <script>
-        // --- Lógica de Versículos Bíblicos ---
-        // URL ATUALIZADA com o novo link fornecido.
-        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec"; 
-        const luckyMessageText = document.getElementById('lucky-message-text');
-        const verseReference = document.getElementById('verse-reference');
-        const getMessageButton = document.getElementById('get-message-button');
-        const shareButton = document.getElementById('share-button');
-        const copyButton = document.getElementById('copy-button');
-        const copyConfirmation = document.getElementById('copy-confirmation');
-        const ogDescriptionMeta = document.getElementById('og-description');
-        const encouragementMessage = document.getElementById('encouragement-message'); // NOVO: Elemento da mensagem de encorajamento
-        const MAX_RETRIES = 3;
-        
-        // Função utilitária para delay (usada para retry em ambas as seções)
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+        <div class="w-full max-w-2xl text-gray-600 text-center text-sm rounded-lg p-3 mt-4">
+        Não coletamos suas informações pessoais. Para continuar oferecendo mensagens de forma gratuita e sem coletar seus dados, contamos com a ajuda de publicidade. Você ajuda o site sem pagar nada a mais por isso.
+    </div>
+    
+    <script>
+        // --- Lógica de Versículos Bíblicos ---
+        // URL ATUALIZADA com o novo link fornecido.
+        const VERSE_API_URL = "https://script.google.com/macros/s/AKfycbyc4R-cVTyOFoaWiytXmN_Ek6JwrHz6Ex7E2vgCrZhvQuOJdMtgAXIbJ89HUnPWoE70/exec"; 
+        const luckyMessageText = document.getElementById('lucky-message-text');
+        const verseReference = document.getElementById('verse-reference');
+        const getMessageButton = document.getElementById('get-message-button');
+        const shareButton = document.getElementById('share-button');
+        const copyButton = document.getElementById('copy-button');
+        const copyConfirmation = document.getElementById('copy-confirmation');
+        const ogDescriptionMeta = document.getElementById('og-description');
+        const encouragementMessage = document.getElementById('encouragement-message'); // NOVO: Elemento da mensagem de encorajamento
+        const MAX_RETRIES = 3;
+        
+        // Função utilitária para delay (usada para retry em ambas as seções)
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
 
 
-        // Função para ajustar o tamanho da fonte do versículo com base no seu comprimento
-        function adjustFontSizeForVerse(verse) {
-            const verseLength = verse.length;
-            const maxNormalLength = 250;  
-            const minFontSize = 1.2;  
-            const maxFontSize = 3;
-            const verseTextStyle = luckyMessageText.style;
-            
-            // Lógica para ajustar o tamanho da fonte com base no comprimento do texto
-            if (verseLength > maxNormalLength) {
-                const reductionFactor = Math.log(verseLength / maxNormalLength) / Math.log(824 / maxNormalLength);
-                const newFontSize = maxFontSize - (reductionFactor * (maxFontSize - minFontSize));
-                verseTextStyle.fontSize = `${Math.max(newFontSize, minFontSize)}rem`;
-            } else {
-                verseTextStyle.fontSize = `${maxFontSize}rem`;
-            }
-        }
+        // Função para ajustar o tamanho da fonte do versículo com base no seu comprimento
+        function adjustFontSizeForVerse(verse) {
+            const verseLength = verse.length;
+            const maxNormalLength = 250;  
+            const minFontSize = 1.2;  
+            const maxFontSize = 3;
+            const verseTextStyle = luckyMessageText.style;
+            
+            // Lógica para ajustar o tamanho da fonte com base no comprimento do texto
+            if (verseLength > maxNormalLength) {
+                const reductionFactor = Math.log(verseLength / maxNormalLength) / Math.log(824 / maxNormalLength);
+                const newFontSize = maxFontSize - (reductionFactor * (maxFontSize - minFontSize));
+                verseTextStyle.fontSize = `${Math.max(newFontSize, minFontSize)}rem`;
+            } else {
+                verseTextStyle.fontSize = `${maxFontSize}rem`;
+            }
+        }
 
-        async function fetchLuckyMessage(retries = MAX_RETRIES) {
-            getMessageButton.disabled = true;
-            shareButton.classList.add('hidden');
-            copyButton.classList.add('hidden');
-            encouragementMessage.classList.add('hidden'); // NOVO: Oculta a mensagem no início do carregamento
-            luckyMessageText.textContent = "Buscando um versículo...";
-            verseReference.classList.add('hidden');
-            luckyMessageText.classList.add('animate-pulse');
-            
-            try {
-                // A URL API foi atualizada acima
-                const response = await fetch(VERSE_API_URL);
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                if (data && data.message) {
-                    let message = data.message;
-                    let verse = "Registro inválido.";
-                    let reference = "";
+        async function fetchLuckyMessage(retries = MAX_RETRIES) {
+            getMessageButton.disabled = true;
+            shareButton.classList.add('hidden');
+            copyButton.classList.add('hidden');
+            encouragementMessage.classList.add('hidden'); // NOVO: Oculta a mensagem no início do carregamento
+            luckyMessageText.textContent = "Buscando um versículo...";
+            verseReference.classList.add('hidden');
+            luckyMessageText.classList.add('animate-pulse');
+            
+            try {
+                // A URL API foi atualizada acima
+                const response = await fetch(VERSE_API_URL);
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data && data.message) {
+                    let message = data.message;
+                    let verse = "Registro inválido.";
+                    let reference = "";
 
-                    // Lógica para formatar o versículo no padrão desejado
-                    const firstQuoteIndex = message.indexOf('"');
-                    if (firstQuoteIndex !== -1) {
-                        reference = message.substring(0, firstQuoteIndex).trim();
-                        if (reference.endsWith(':')) {
-                            reference = reference.slice(0, -1);
-                        }
-                        
-                        verse = message.substring(firstQuoteIndex + 1, message.length - 1);
-                    } else {
-                        verse = message;
-                    }
+                    // Lógica para formatar o versículo no padrão desejado
+                    const firstQuoteIndex = message.indexOf('"');
+                    if (firstQuoteIndex !== -1) {
+                        reference = message.substring(0, firstQuoteIndex).trim();
+                        if (reference.endsWith(':')) {
+                            reference = reference.slice(0, -1);
+                        }
+                        
+                        verse = message.substring(firstQuoteIndex + 1, message.length - 1);
+                    } else {
+                        verse = message;
+                    }
 
-                    luckyMessageText.textContent = `"${verse}"`;
-                    verseReference.textContent = reference;
-                    verseReference.classList.remove('hidden');
+                    luckyMessageText.textContent = `"${verse}"`;
+                    verseReference.textContent = reference;
+                    verseReference.classList.remove('hidden');
 
-                    // Chama a nova função para ajustar a fonte
-                    adjustFontSizeForVerse(verse);
+                    // Chama a nova função para ajustar a fonte
+                    adjustFontSizeForVerse(verse);
 
-                    updateMetaTags(message);
-                    
-                    // NOVO: Exibe a mensagem de encorajamento
-                    encouragementMessage.classList.remove('hidden');
+                    updateMetaTags(message);
+                    
+                    // NOVO: Exibe a mensagem de encorajamento
+                    encouragementMessage.classList.remove('hidden');
 
-                    if (navigator.share) {
-                        shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
-                        shareButton.classList.remove('hidden');
-                        copyButton.classList.add('hidden');
-                    } else {
-                        shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
-                        copyButton.classList.remove('hidden');
-                        shareButton.classList.add('hidden');
-                    }
-                } else {
-                    luckyMessageText.textContent = "Não foi possível carregar um versículo. Tente novamente mais tarde.";
-                    verseReference.classList.add('hidden');
-                }
-            } catch (error) {
-                console.error(`Falha ao buscar versículo:`, error);
-                
-                if (retries > 1) {
-                    console.log(`Tentando novamente buscar o versículo. Tentativas restantes: ${retries - 1}`);
-                    await delay(1000);  
-                    return fetchLuckyMessage(retries - 1);
-                }
-                
-                // MENSAGEM DE ERRO AJUSTADA
-                luckyMessageText.textContent = "Não foi possível carregar o versículo no momento, tente novamente mais tarde."; 
-                verseReference.classList.add('hidden');
-            } finally {
-                getMessageButton.disabled = false;
-                luckyMessageText.classList.remove('animate-pulse');
-            }
-        }
-        
-        function updateMetaTags(message) {
-            ogDescriptionMeta.setAttribute('content', message);
-        }
+                    if (navigator.share) {
+                        shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
+                        shareButton.classList.remove('hidden');
+                        copyButton.classList.add('hidden');
+                    } else {
+                        shareButton.parentElement.classList.remove('hidden'); // Exibe o container dos botões de compartilhamento
+                        copyButton.classList.remove('hidden');
+                        shareButton.classList.add('hidden');
+                    }
+                } else {
+                    luckyMessageText.textContent = "Não foi possível carregar um versículo. Tente novamente mais tarde.";
+                    verseReference.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error(`Falha ao buscar versículo:`, error);
+                
+                if (retries > 1) {
+                    console.log(`Tentando novamente buscar o versículo. Tentativas restantes: ${retries - 1}`);
+                    await delay(1000);  
+                    return fetchLuckyMessage(retries - 1);
+                }
+                
+                // MENSAGEM DE ERRO AJUSTADA
+                luckyMessageText.textContent = "Não foi possível carregar o versículo no momento, tente novamente mais tarde."; 
+                verseReference.classList.add('hidden');
+            } finally {
+                getMessageButton.disabled = false;
+                luckyMessageText.classList.remove('animate-pulse');
+            }
+        }
+        
+        function updateMetaTags(message) {
+            ogDescriptionMeta.setAttribute('content', message);
+        }
 
-        // Função para compartilhar o versículo usando a API nativa
-        function shareMessage() {
-            // Nova mensagem de incentivo para compartilhar o link
-            const encouragementMessageText = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
+        // Função para compartilhar o versículo usando a API nativa
+        function shareMessage() {
+            // Nova mensagem de incentivo para compartilhar o link
+            const encouragementMessageText = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
 
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Versículo Bíblico Diário',
-                    text: encouragementMessageText, // Usando a nova mensagem de incentivo
-                    url: window.location.href // Deixa o WhatsApp adicionar a URL
-                }).then(() => {
-                    console.log('Mensagem compartilhada com sucesso!');
-                }).catch((error) => {
-                    console.error('Erro ao compartilhar:', error);
-                });
-            } else {
-                // Fallback para o botão de cópia, caso a API não seja suportada
-                copyMessage();
-            }
-        }
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Versículo Bíblico Diário',
+                    text: encouragementMessageText, // Usando a nova mensagem de incentivo
+                    url: window.location.href // Deixa o WhatsApp adicionar a URL
+                }).then(() => {
+                    console.log('Mensagem compartilhada com sucesso!');
+                }).catch((error) => {
+                    console.error('Erro ao compartilhar:', error);
+                });
+            } else {
+                // Fallback para o botão de cópia, caso a API não seja suportada
+                copyMessage();
+            }
+        }
 
-        // Função para copiar o versículo para a área de transferência
-        function copyMessage() {
-            // A mensagem copiada agora é a mesma mensagem de incentivo
-            const encouragementMessageText = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
+        // Função para copiar o versículo para a área de transferência
+        function copyMessage() {
+            // A mensagem copiada agora é a mesma mensagem de incentivo
+            const encouragementMessageText = "Receba uma dose diária de inspiração! Clique no link para ver o versículo de hoje e muito mais.";
 
-            // Cria um elemento de texto temporário para a cópia
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = encouragementMessageText;
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
+            // Cria um elemento de texto temporário para a cópia
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = encouragementMessageText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
 
-            try {
-                document.execCommand('copy');
-                copyConfirmation.classList.add('visible');
-                setTimeout(() => {
-                    copyConfirmation.classList.remove('visible');
-                }, 2000);
-            } catch (err) {
-                console.error('Falha ao copiar o texto:', err);
-            } finally {
-                document.body.removeChild(tempTextarea);
-            }
-        }
+            try {
+                document.execCommand('copy');
+                copyConfirmation.classList.add('visible');
+                setTimeout(() => {
+                    copyConfirmation.classList.remove('visible');
+                }, 2000);
+            } catch (err) {
+                console.error('Falha ao copiar o texto:', err);
+            } finally {
+                document.body.removeChild(tempTextarea);
+            }
+        }
 
-        getMessageButton.addEventListener('click', fetchLuckyMessage);
-        shareButton.addEventListener('click', shareMessage);
-        copyButton.addEventListener('click', copyMessage); // Mantém o listener para o fallback
+        getMessageButton.addEventListener('click', fetchLuckyMessage);
+        shareButton.addEventListener('click', shareMessage);
+        copyButton.addEventListener('click', copyMessage); // Mantém o listener para o fallback
 
-        // --- Lógica do Carrossel de Ofertas ---
-        // URL da planilha do Google Sheets para as ofertas
-        const OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaiIM_7fbsAN3SJvgWmJhEeciFZtvCeUFEyJwyaldEDlbh5kxXgg5l6y31V7RpxGldW-Kpc7oWdHst/pub?gid=1157838368&single=true&output=csv";
-        const OFFERS_CACHE_KEY = 'mosaico_offers_data';
-        const OFFERS_CACHE_EXPIRY = 3600000; // 1 hora em milissegundos
+        // --- Lógica do Carrossel de Ofertas ---
+        // URL da planilha do Google Sheets para as ofertas
+        const OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQaiIM_7fbsAN3SJvgWmJhEeciFZtvCeUFEyJwyaldEDlbh5kxXgg5l6y31V7RpxGldW-Kpc7oWdHst/pub?gid=1157838368&single=true&output=csv";
+        const OFFERS_CACHE_KEY = 'mosaico_offers_data';
+        const OFFERS_CACHE_EXPIRY = 3600000; // 1 hora em milissegundos
 
-        const contentSection = document.getElementById('content-area');
-        const contentLink = document.getElementById('content-link');
-        const contentTitleElement = document.getElementById('content-title');
-        const offerDescriptionElement = document.getElementById('offer-description'); // Novo elemento de descrição
-        const contentImage = document.getElementById('content-image');
-        const collapseButton = document.getElementById('collapse-button');
-        const collapseIconUp = document.getElementById('collapse-icon-up');
-        const collapseIconDown = document.getElementById('collapse-icon-down');
+        const contentSection = document.getElementById('content-area');
+        const contentLink = document.getElementById('content-link');
+        const contentTitleElement = document.getElementById('content-title');
+        const offerDescriptionElement = document.getElementById('offer-description'); // Novo elemento de descrição
+        const contentImage = document.getElementById('content-image');
+        const collapseButton = document.getElementById('collapse-button');
+        const collapseIconUp = document.getElementById('collapse-icon-up');
+        const collapseIconDown = document.getElementById('collapse-icon-down');
 
-        let offersData = [];
-        let offerIntervalId = null;
-        let isCollapsed = false;
+        let offersData = [];
+        let offerIntervalId = null;
+        let isCollapsed = false;
 
-        function startLoadingState() {
-            contentSection.classList.add('loading');
-        }
+        function startLoadingState() {
+            contentSection.classList.add('loading');
+        }
 
-        function stopLoadingState() {
-            contentSection.classList.remove('loading');
-        }
+        function stopLoadingState() {
+            contentSection.classList.remove('loading');
+        }
 
-        function parseCsvLine(line) {
-            const result = [];
-            let inQuote = false;
-            let currentField = '';
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuote = !inQuote;
-                    if (!inQuote && line[i + 1] === '"') {
-                        currentField += '"';
-                        i++;
-                    }
-                } else if (char === ',' && !inQuote) {
-                    result.push(currentField.trim());
-                    currentField = '';
-                } else {
-                    currentField += char;
-                }
-            }
-            result.push(currentField.trim());
-            return result;
-        }
+        function parseCsvLine(line) {
+            const result = [];
+            let inQuote = false;
+            let currentField = '';
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuote = !inQuote;
+                    if (!inQuote && line[i + 1] === '"') {
+                        currentField += '"';
+                        i++;
+                    }
+                } else if (char === ',' && !inQuote) {
+                    result.push(currentField.trim());
+                    currentField = '';
+                } else {
+                    currentField += char;
+                }
+            }
+            result.push(currentField.trim());
+            return result;
+        }
 
-        async function fetchAndParseCsv(url, retries = MAX_RETRIES) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP! Status: ${response.status}`);
-                }
-                let csvText = await response.text();
+        async function fetchAndParseCsv(url, retries = MAX_RETRIES) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP! Status: ${response.status}`);
+                }
+                let csvText = await response.text();
 
-                if (csvText.charCodeAt(0) === 0xFEFF) {
-                    csvText = csvText.substring(1);
-                }
+                if (csvText.charCodeAt(0) === 0xFEFF) {
+                    csvText = csvText.substring(1);
+                }
 
-                const lines = csvText.split('\n').filter(line => line.trim() !== '');
-                if (lines.length <= 1) {
-                    console.warn(`O CSV da URL "${url}" não contém dados válidos.`);
-                    return [];
-                }
-                const headers = parseCsvLine(lines[0]).map(header => header.trim());
-                
-                const data = [];
-                for (const line of lines.slice(1)) {
-                    const values = parseCsvLine(line);
-                    if (values.length >= headers.length) {
-                        const row = {};
-                        headers.forEach((header, index) => {
-                            const value = (values[index] || '').replace(/\r$/, '');
-                            row[header] = value;
-                        });
-                        data.push(row);
-                    }
-                }
-                return data;
-            } catch (error) {
-                console.error(`Tentativa ${MAX_RETRIES - retries + 1} falhou ao buscar ou analisar o CSV de ${url}:`, error);
-                if (retries > 0) {
-                    await delay(1000 * (MAX_RETRIES - retries + 1));
-                    return fetchAndParseCsv(url, retries - 1);
-                }
-                return [];
-            }
-        }
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                if (lines.length <= 1) {
+                    console.warn(`O CSV da URL "${url}" não contém dados válidos.`);
+                    return [];
+                }
+                const headers = parseCsvLine(lines[0]).map(header => header.trim());
+                
+                const data = [];
+                for (const line of lines.slice(1)) {
+                    const values = parseCsvLine(line);
+                    if (values.length >= headers.length) {
+                        const row = {};
+                        headers.forEach((header, index) => {
+                            const value = (values[index] || '').replace(/\r$/, '');
+                            row[header] = value;
+                        });
+                        data.push(row);
+                    }
+                }
+                return data;
+            } catch (error) {
+                console.error(`Tentativa ${MAX_RETRIES - retries + 1} falhou ao buscar ou analisar o CSV de ${url}:`, error);
+                if (retries > 0) {
+                    await delay(1000 * (MAX_RETRIES - retries + 1));
+                    return fetchAndParseCsv(url, retries - 1);
+                }
+                return [];
+            }
+        }
 
-        function updateOffer() {
-            if (offersData.length === 0) {
-                console.warn("Nenhuma oferta disponível para exibir no carrossel.");
-                contentSection.classList.add('hidden');
-                return;
-            } else {
-                contentSection.classList.remove('hidden');
-            }
+        function updateOffer() {
+            if (offersData.length === 0) {
+                console.warn("Nenhuma oferta disponível para exibir no carrossel.");
+                contentSection.classList.add('hidden');
+                return;
+            } else {
+                contentSection.classList.remove('hidden');
+            }
 
-            const randomIndex = Math.floor(Math.random() * offersData.length);
-            const randomOffer = offersData[randomIndex];
-            
-            if (randomOffer) {
-                let itemName = randomOffer['Item_Name'] || "Oferta Especial";
-                const offerLink = randomOffer['Offer_Link'];
-                const imgUrl = randomOffer['img'];
-                const description = randomOffer['Description'] || "Clique para ver mais detalhes e apoiar o site.";
+            const randomIndex = Math.floor(Math.random() * offersData.length);
+            const randomOffer = offersData[randomIndex];
+            
+            if (randomOffer) {
+                let itemName = randomOffer['Item_Name'] || "Oferta Especial";
+                const offerLink = randomOffer['Offer_Link'];
+                const imgUrl = randomOffer['img'];
+                const description = randomOffer['Description'] || "Clique para ver mais detalhes e apoiar o site.";
 
-                contentTitleElement.textContent = itemName;
-                contentImage.src = imgUrl || "https://placehold.co/96x96/E0E0E0/808080?text=Sem+Imagem"; // Atualizado para 96x96
-                offerDescriptionElement.textContent = description; // Adicionado
+                contentTitleElement.textContent = itemName;
+                contentImage.src = imgUrl || "https://placehold.co/96x96/E0E0E0/808080?text=Sem+Imagem"; // Atualizado para 96x96
+                offerDescriptionElement.textContent = description; // Adicionado
 
-                if (offerLink) {
-                    contentLink.href = offerLink;
-                } else {
-                    contentLink.href = '#'; // Link vazio se não houver oferta
-                }
-            }
-        }
+                if (offerLink) {
+                    contentLink.href = offerLink;
+                } else {
+                    contentLink.href = '#'; // Link vazio se não houver oferta
+                }
+            }
+        }
 
-        async function fetchOffersAndStartRotation() {
-            startLoadingState();
-            let cachedData = sessionStorage.getItem(OFFERS_CACHE_KEY);
-            let cachedTime = sessionStorage.getItem(`${OFFERS_CACHE_KEY}_time`);
+        async function fetchOffersAndStartRotation() {
+            startLoadingState();
+            let cachedData = sessionStorage.getItem(OFFERS_CACHE_KEY);
+            let cachedTime = sessionStorage.getItem(`${OFFERS_CACHE_KEY}_time`);
 
-            if (cachedData && cachedTime && (Date.now() - cachedTime < OFFERS_CACHE_EXPIRY)) {
-                offersData = JSON.parse(cachedData);
-            } else {
-                try {
-                    const rawOffersData = await fetchAndParseCsv(OFFERS_CSV_URL);
-                    offersData = rawOffersData.filter(offer => offer.img && offer.img.trim() !== '');
+            if (cachedData && cachedTime && (Date.now() - cachedTime < OFFERS_CACHE_EXPIRY)) {
+                offersData = JSON.parse(cachedData);
+            } else {
+                try {
+                    const rawOffersData = await fetchAndParseCsv(OFFERS_CSV_URL);
+                    offersData = rawOffersData.filter(offer => offer.img && offer.img.trim() !== '');
 
-                    if (offersData.length > 0) {
-                        sessionStorage.setItem(OFFERS_CACHE_KEY, JSON.stringify(offersData));
-                        sessionStorage.setItem(`${OFFERS_CACHE_KEY}_time`, Date.now());
-                    } else {
-                        offersData = [];
-                    }
-                } catch (error) {
-                    offersData = [];
-                }
-            }
+                    if (offersData.length > 0) {
+                        sessionStorage.setItem(OFFERS_CACHE_KEY, JSON.stringify(offersData));
+                        sessionStorage.setItem(`${OFFERS_CACHE_KEY}_time`, Date.now());
+                    } else {
+                        offersData = [];
+                    }
+                } catch (error) {
+                    offersData = [];
+                }
+            }
 
-            if (offersData.length > 0) {
-                updateOffer();
-                stopLoadingState();
-                if (offerIntervalId) {
-                    clearInterval(offerIntervalId);
-                }
-                offerIntervalId = setInterval(updateOffer, 10000); // Rota a cada 10 segundos
-            } else {
-                if (offerIntervalId) {
-                    clearInterval(offerIntervalId);
-                }
-                contentSection.classList.add('hidden');
-            }
-        }
-        
-        function toggleCollapse() {
-            isCollapsed = !isCollapsed;
-            if (isCollapsed) {
-                contentSection.classList.add('collapsed');
-                collapseIconDown.style.display = 'block';
-                collapseIconUp.style.display = 'none';
-                collapseButton.title = "Expandir Carrossel";
-            } else {
-                contentSection.classList.remove('collapsed');
-                collapseIconDown.style.display = 'none';
-                collapseIconUp.style.display = 'block';
-                collapseButton.title = "Recolher Carrossel";
-            }
-        }
+            if (offersData.length > 0) {
+                updateOffer();
+                stopLoadingState();
+                if (offerIntervalId) {
+                    clearInterval(offerIntervalId);
+                }
+                offerIntervalId = setInterval(updateOffer, 10000); // Rota a cada 10 segundos
+            } else {
+                if (offerIntervalId) {
+                    clearInterval(offerIntervalId);
+                }
+                contentSection.classList.add('hidden');
+            }
+        }
+        
+        function toggleCollapse() {
+            isCollapsed = !isCollapsed;
+            if (isCollapsed) {
+                contentSection.classList.add('collapsed');
+                collapseIconDown.style.display = 'block';
+                collapseIconUp.style.display = 'none';
+                collapseButton.title = "Expandir Carrossel";
+            } else {
+                contentSection.classList.remove('collapsed');
+                collapseIconDown.style.display = 'none';
+                collapseIconUp.style.display = 'block';
+                collapseButton.title = "Recolher Carrossel";
+            }
+        }
 
-        // --- Início da Execução ---
-        window.onload = function() {
-            fetchLuckyMessage(); // Carrega o primeiro versículo ao iniciar
-            fetchOffersAndStartRotation();
-            collapseButton.addEventListener('click', toggleCollapse);
-        };
-    </script>
+        // --- Início da Execução ---
+        window.onload = function() {
+            fetchLuckyMessage(); // Carrega o primeiro versículo ao iniciar
+            fetchOffersAndStartRotation();
+            collapseButton.addEventListener('click', toggleCollapse);
+        };
+    </script>
 </body>
 </html>
-
-
-
